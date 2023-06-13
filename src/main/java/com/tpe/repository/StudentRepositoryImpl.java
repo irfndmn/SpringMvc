@@ -35,16 +35,38 @@ public class StudentRepositoryImpl implements StudentRepository{
 
     @Override
     public void delete(Long id) {
+        Session session =sessionFactory.openSession();
+        Transaction tx =session.beginTransaction();
+
+        Student student=session.load(Student.class,id);
+        session.delete(student);
+
+        tx.commit();
+        session.close();
 
     }
 
     @Override
     public Optional<Student> findById(Long id) {
-        return Optional.empty();
+        Session session= sessionFactory.openSession();
+        Transaction tx=session.beginTransaction();
+        Student student=session.get(Student.class,id);
+        Optional<Student> optionalStudent=Optional.ofNullable(student);  // student null ise bos bir optional obj doner
+        tx.commit();
+        session.close();
+        return optionalStudent;
     }
 
     @Override
     public List<Student> findAll() {
-        return null;
+        Session session =sessionFactory.openSession();
+        Transaction tx =session.beginTransaction();
+
+        List<Student> studentList=session.createQuery("FROM Student",Student.class).getResultList();
+
+        tx.commit();
+        session.close();
+
+        return studentList;
     }
 }

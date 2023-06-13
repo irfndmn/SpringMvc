@@ -2,6 +2,9 @@ package com.tpe.domain;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,8 +13,12 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Please provide valid firstname")
     private String firstName;
+    @NotEmpty(message = "Please provide valid lastname")
     private String lastName;
+
+    @NotNull(message = "Please provide valid grade")
     private Integer grade;
     private LocalDateTime createDate=LocalDateTime.now();
 

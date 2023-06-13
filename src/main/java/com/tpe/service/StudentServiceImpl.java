@@ -1,6 +1,7 @@
 package com.tpe.service;
 
 import com.tpe.domain.Student;
+import com.tpe.exception.ResourceNotFoundException;
 import com.tpe.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,20 @@ private StudentRepository repository;
 
     @Override
     public void deleteStudent(Long id) {
+        Student student=getStudentById(id);
+
+        repository.delete(student.getId());
 
     }
 
     @Override
     public Student getStudentById(Long id) {
-        return null;
+       Student student= repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Student not found by id : "+id));
+       return student;
     }
 
     @Override
     public List<Student> getAllStudent() {
-        return null;
+        return repository.findAll();
     }
 }
